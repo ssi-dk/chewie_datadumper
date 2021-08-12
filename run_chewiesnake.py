@@ -39,3 +39,20 @@ command = f"""docker run --rm \
 """
 print("Command:")
 print(command)
+
+process = subprocess.Popen(
+    command,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    shell=True,
+    env=os.environ
+)
+process_out, process_error = process.communicate()
+if process_error:
+    """Note: if there's only one sample you'll always get an error from 
+    Grapetree, but it doesn't matter in our case."""
+    print("*****ERROR*****")
+    print(process_error)
+print()
+print("*****OUTPUT*****")
+print(process_out)
