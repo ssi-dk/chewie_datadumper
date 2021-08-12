@@ -8,7 +8,7 @@ CHEWIESNAKE_IMAGE_ID = os.getenv("CHEWIESNAKE_IMAGE_ID")
 CHEWIESNAKE_MOUNT_POINT = os.getenv("CHEWIESNAKE_MOUNT_POINT")
 BIFROST_DB_KEY = os.getenv("BIFROST_DB_KEY", "mongodb://localhost/bifrost_test")
 
-parser = argparse.ArgumentParser(description='Run cheiwSnake with selected samples and save allele profiles to MongoDB.')
+parser = argparse.ArgumentParser(description='Run chewieSnake with selected samples and save allele profiles to MongoDB.')
 parser.add_argument('-s','--sample_names', nargs='+', help='Sample names (strip read numbers and extension from file names).')
 args = parser.parse_args()
 
@@ -22,3 +22,4 @@ for sample_name in args.sample_names:
 
 with open('samples.tsv', 'w') as file:
     file.writelines(lines)
+    file.write("\n")
