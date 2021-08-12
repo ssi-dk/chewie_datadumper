@@ -57,3 +57,10 @@ process = subprocess.Popen(
 process_out, process_error = process.communicate()
 """Note: if there's only one sample you'll always get an error from 
 Grapetree, but it doesn't matter in our case."""
+
+# Read relevant results from output subfolder
+assert output_subfolder.exists()
+allele_profiles_file = pathlib.Path(output_subfolder, 'cgmlst', 'allele_profiles.tsv')
+assert allele_profiles_file.exists()
+hashids_file = pathlib.Path(output_subfolder, 'cgmlst', 'hashids.tsv')
+assert hashids_file.exists()
