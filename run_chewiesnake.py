@@ -1,10 +1,12 @@
 import os
 import argparse
 import pathlib
+import shutil
 import subprocess
 
 CHEWIESNAKE_IMAGE_ID = os.getenv("CHEWIESNAKE_IMAGE_ID")
 CHEWIESNAKE_MOUNT_POINT = os.getenv("CHEWIESNAKE_MOUNT_POINT")
+CHEWIESNAKE_OUTPUT_SUBFOLDER = os.getenv("CHEWIESNAKE_OUTPUT_SUBFOLDER", "output")
 PATH_INSIDE_CONTAINER = "/chewieSnake/analysis"  # Should not be changed as this is what chewieSnake expects
 BIFROST_DB_KEY = os.getenv("BIFROST_DB_KEY", "mongodb://localhost/bifrost_test")
 
@@ -22,6 +24,10 @@ for sample_name in args.sample_names:
 
 mount_point = pathlib.Path(CHEWIESNAKE_MOUNT_POINT)
 assert mount_point.exists()
+output_subfolder = pathlib.Path(mount_point, CHEWIESNAKE_OUTPUT_SUBFOLDER)
+if output_subfolder.exists():
+    print("Output subfolder already exists and will be deleted!")
+    shutil.rmtree(output_subfolder)
 samples_tsv_path = pathlib.Path(mount_point, 'samples.tsv')
 
 with open(samples_tsv_path, 'w') as file:
