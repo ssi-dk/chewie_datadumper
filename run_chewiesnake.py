@@ -23,7 +23,7 @@ mount_point = pathlib.Path(CHEWIESNAKE_MOUNT_POINT)
 assert mount_point.exists()
 samples_tsv_path = pathlib.Path(mount_point, 'samples.tsv')
 
-with open(samples_tsv_path, 'w') as file:  # Todo: files skal lægges i CHEWIESNAKE_MOUNT_POINT!
+with open(samples_tsv_path, 'w') as file:
     file.writelines(lines)
     file.write("\n")
 
