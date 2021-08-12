@@ -15,9 +15,10 @@ args = parser.parse_args()
 lines = ["sample\tfq1\tfq2"]
 
 for sample_name in args.sample_names:
-    file_name_1 = f"/chewieSnake/analysis/{sample_name}_R1_001.fastq.gz"
-    file_name_2 = f"/chewieSnake/analysis/{sample_name}_R2_001.fastq.gz"
+    file_name_1 = f"{sample_name}_R1_001.fastq.gz"
+    file_name_2 = f"{sample_name}_R2_001.fastq.gz"
     line = f"{sample_name}\t/chewieSnake/analysis/{file_name_1}\t{file_name_2}"
     lines.append(line)
 
-print(lines)
+with open('samples.tsv', 'w') as file:
+    file.writelines(lines)
