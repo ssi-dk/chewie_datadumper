@@ -7,9 +7,10 @@ def tsv_reader(file_name):
 
 
 def write_allele_profiles_to_mongo(file):
-    line_count = 0
-    for line in tsv_reader(file):
-        if line_count > 0:  # First line is header
-            print(f"Saving allele profile #{line_count} to MongoDB...")
-            print(line)
-        line_count += 1
+    allele_profile_reader = tsv_reader(file)
+    next(allele_profile_reader)  # Skip header line
+    for line in allele_profile_reader:
+        allele_profile = line.split('\t')
+        sample_name = allele_profile.pop(0)
+        print("Sample name: ", sample_name)
+        print("Length of allele profile:", len(allele_profile))
