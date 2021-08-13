@@ -15,3 +15,5 @@ def write_allele_profiles_to_mongo(file):
         print("Sample name: ", sample_name)
         print("Length of allele profile:", len(allele_profile))
         print(type(allele_profile[0]))
+        allele_profile_as_generator = (int(allele) for allele in allele_profile)
+        print(type(next(allele_profile_as_generator)))
