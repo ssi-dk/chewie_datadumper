@@ -15,5 +15,11 @@ def write_allele_profiles_to_mongo(file):
         elements = line_splitter(line)
         sample_name = next(elements)
         print("Sample name: ", sample_name)
-        allele_hash = next(elements)
-        print(type(next(elements)))
+        allele_profile = list()
+        for string in elements:
+            try:
+                allele_hash = int(string)
+            except ValueError:
+                allele_hash = None
+            allele_profile.append(allele_hash)
+        print(allele_profile)
