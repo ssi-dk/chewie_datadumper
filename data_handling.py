@@ -5,15 +5,15 @@ def line_reader(file_name):
         for row in file_handler:
             yield row
 
+def line_splitter(line: str):
+    return (value for value in line.split('\t'))
 
 def write_allele_profiles_to_mongo(file):
     allele_profile_reader = line_reader(file)
     next(allele_profile_reader)  # Skip header line
     for line in allele_profile_reader:
-        allele_profile = line.split('\t')
-        sample_name = allele_profile.pop(0)
+        elements = line_splitter(line)
+        sample_name = next(elements)
         print("Sample name: ", sample_name)
-        print("Length of allele profile:", len(allele_profile))
-        print(type(allele_profile[0]))
-        allele_profile_as_generator = (int(allele) for allele in allele_profile)
-        print(type(next(allele_profile_as_generator)))
+        allele_hash = next(elements)
+        print(type(next(elements)))
