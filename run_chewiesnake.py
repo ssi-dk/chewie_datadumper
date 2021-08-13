@@ -4,6 +4,8 @@ import pathlib
 import shutil
 import subprocess
 
+from data_handling import write_allele_profiles_to_mongo
+
 CHEWIESNAKE_IMAGE_ID = os.getenv("CHEWIESNAKE_IMAGE_ID")
 CHEWIESNAKE_MOUNT_POINT = os.getenv("CHEWIESNAKE_MOUNT_POINT")
 CHEWIESNAKE_OUTPUT_SUBFOLDER = os.getenv("CHEWIESNAKE_OUTPUT_SUBFOLDER", "output")
@@ -68,10 +70,4 @@ assert hashids_file.exists()
 
 
 # Update allele_profiles collection in MongoDB
-with open(allele_profiles_file) as allele_profile_file_handler:
-    line_count = 0
-    for line in allele_profile_file_handler:
-        if line_count > 0:  # First line is header
-            print(f"Processing allele #{line_count}")
-            print(line)
-        line_count += 1
+write_allele_profiles_to_mongo(allele_profiles_file)
