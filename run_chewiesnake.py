@@ -12,6 +12,7 @@ BIFROST_DB_KEY = os.getenv("BIFROST_DB_KEY", "mongodb://localhost/bifrost_test")
 
 parser = argparse.ArgumentParser(description='Run chewieSnake with selected samples and save allele profiles to MongoDB.')
 parser.add_argument('-s','--sample_names', nargs='+', help='Sample names (strip read numbers and extension from file names).')
+parser.add_argument('-d','--delete_old_output', action='store_true', help='Delete old output folder')
 args = parser.parse_args()
 
 lines = ["sample\tfq1\tfq2\n"]
@@ -25,7 +26,7 @@ for sample_name in args.sample_names:
 mount_point = pathlib.Path(CHEWIESNAKE_MOUNT_POINT)
 assert mount_point.exists()
 output_subfolder = pathlib.Path(mount_point, CHEWIESNAKE_OUTPUT_SUBFOLDER)
-if output_subfolder.exists():
+if args.delete_old_output and output_subfolder.exists():
     print("Output subfolder already exists and will be deleted!")
     shutil.rmtree(output_subfolder)
 samples_tsv_path = pathlib.Path(mount_point, 'samples.tsv')
@@ -64,3 +65,13 @@ allele_profiles_file = pathlib.Path(output_subfolder, 'cgmlst', 'allele_profiles
 assert allele_profiles_file.exists()
 hashids_file = pathlib.Path(output_subfolder, 'cgmlst', 'hashids.tsv')
 assert hashids_file.exists()
+
+
+# Update allele_profiles collection in MongoDB
+with open(allele_profiles_file) as allele_profile_file_handler:
+    line_count = 0
+    for line in allele_profile_file_handler:
+        if line_count > 0:  # First line is header
+            print(f"Processing allele #{line_count}")
+            print(line)
+        line_count += 1
