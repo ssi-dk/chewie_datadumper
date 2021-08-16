@@ -6,7 +6,6 @@ authors = ["Finn Gruwier Larsen <figl@ssi.dk>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-numpy = "^1.21.2"
 
 [tool.poetry.dev-dependencies]
 
