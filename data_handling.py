@@ -1,5 +1,8 @@
 import pathlib
-import numpy
+import redis
+
+
+r = redis.Redis(charset="utf-8", decode_responses=True)
 
 def line_reader(file_name):
     """Get lines from text file one by one using a generator object
@@ -31,8 +34,6 @@ def get_allele_profiles(folder: pathlib.Path):
         print("Sample name: ", sample_name)
         # We need to exchange the sample name with a hash id.
 
-
-        # salmonella = numpy.array()
         for string in elements:
             try:
                 allele_hash = int(string)
