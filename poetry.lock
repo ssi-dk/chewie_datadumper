@@ -6,10 +6,21 @@ category = "main"
 optional = false
 python-versions = ">=3.7,<3.11"
 
+[[package]]
+name = "redis"
+version = "3.5.3"
+description = "Python client for Redis key-value store"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+
+[package.extras]
+hiredis = ["hiredis (>=0.1.3)"]
+
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7, <3.11"
-content-hash = "05772e4359c81baf578b0120c42caa5a1e2ea7fbc86e0dbc29fade19164034ba"
+content-hash = "c6d92710bb569f0d21c14267da380f25149d2c941e12b65177fa1bc1fecd9081"
 
 [metadata.files]
 numpy = [
@@ -43,4 +54,8 @@ numpy = [
     {file = "numpy-1.21.2-cp39-cp39-win_amd64.whl", hash = "sha256:b5e8590b9245803c849e09bae070a8e1ff444f45e3f0bed558dd722119eea724"},
     {file = "numpy-1.21.2-pp37-pypy37_pp73-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:d96a6a7d74af56feb11e9a443150216578ea07b7450f7c05df40eec90af7f4a7"},
     {file = "numpy-1.21.2.zip", hash = "sha256:423216d8afc5923b15df86037c6053bf030d15cc9e3224206ef868c2d63dd6dc"},
+]
+redis = [
+    {file = "redis-3.5.3-py2.py3-none-any.whl", hash = "sha256:432b788c4530cfe16d8d943a09d40ca6c16149727e4afe8c2c9d5580c59d9f24"},
+    {file = "redis-3.5.3.tar.gz", hash = "sha256:0e7e0cfca8660dea8b7d5cd8c4f6c5e29e11f31158c0b0ae91a397f00e5a05a2"},
 ]
