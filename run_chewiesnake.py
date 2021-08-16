@@ -4,7 +4,7 @@ import pathlib
 import shutil
 import subprocess
 
-from data_handling import write_allele_profiles_to_mongo
+from data_handling import get_allele_profiles
 
 CHEWIESNAKE_IMAGE_ID = os.getenv("CHEWIESNAKE_IMAGE_ID")
 CHEWIESNAKE_MOUNT_POINT = os.getenv("CHEWIESNAKE_MOUNT_POINT")
@@ -70,4 +70,4 @@ assert hashids_file.exists()
 
 
 # Update allele_profiles collection in MongoDB
-write_allele_profiles_to_mongo(allele_profiles_file)
+get_allele_profiles(allele_profiles_file)

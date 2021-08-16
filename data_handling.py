@@ -8,7 +8,7 @@ def line_reader(file_name):
 def line_splitter(line: str):
     return (value for value in line.split('\t'))
 
-def write_allele_profiles_to_mongo(file):
+def get_allele_profiles(file):
     allele_profile_reader = line_reader(file)
     next(allele_profile_reader)  # Skip header line
     for line in allele_profile_reader:
