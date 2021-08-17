@@ -4,7 +4,7 @@ import pathlib
 import shutil
 import subprocess
 
-from data_handling import get_allele_profiles
+from data_handling import update_distance_matrix
 
 CHEWIESNAKE_IMAGE_ID = os.getenv("CHEWIESNAKE_IMAGE_ID")
 CHEWIESNAKE_MOUNT_POINT = os.getenv("CHEWIESNAKE_MOUNT_POINT")
@@ -62,5 +62,4 @@ process_out, process_error = process.communicate()
 Grapetree, but it doesn't matter in our case."""
 
 
-# Update allele_profiles collection in MongoDB
-get_allele_profiles(output_subfolder)
+update_distance_matrix(output_subfolder, 'salmonella')
