@@ -62,4 +62,4 @@ process_out, process_error = process.communicate()
 Grapetree, but it doesn't matter in our case."""
 
 
-update_distance_matrix(output_subfolder, 'salmonella')
+update_distance_matrix(output_subfolder, 'salmonella', args.sample_names)

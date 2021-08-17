@@ -41,11 +41,18 @@ def get_allele_profiles(folder: pathlib.Path):
             except ValueError:
                 allele_hash = None
 
-def update_distance_matrix(folder: pathlib.Path, species: str):
+def update_distance_matrix(folder: pathlib.Path, species: str, sample_names: list):
+    print("We already know that the distance matrix should contain these sample names:")
+    print(sample_names)
     distance_matrix_file = pathlib.Path(folder, 'cgmlst', 'distance_matrix.tsv')
     # Note: the distance_matrix.tsv file from chewieSnake uses space as separator.
     distance_matrix_reader = line_reader(distance_matrix_file)
     for line in distance_matrix_reader:
         elements_gen = line_splitter(line, ' ')
-        print("Elements in line:")
-        print(list(elements_gen))
+        sample_name = next(elements_gen)
+        print("Sample name:", sample_name)
+        #key = species + ':' + sample_name
+        #print("Key:", key)
+        # Make a Redis 'sorted set' entry with distances as scores and sample names as values
+        # Todo: build into try/except (probably on KeyError)
+        r.zadd(sample_name, {sample_name: next(elements_gen) for sample_name in sample_names})
