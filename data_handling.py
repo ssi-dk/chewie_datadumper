@@ -51,8 +51,8 @@ def update_distance_matrix(folder: pathlib.Path, species: str, sample_names: lis
         elements_gen = line_splitter(line, ' ')
         sample_name = next(elements_gen)
         print("Sample name:", sample_name)
-        #key = species + ':' + sample_name
-        #print("Key:", key)
+        key = species + ':' + sample_name
+        print("Key:", key)
         # Make a Redis 'sorted set' entry with distances as scores and sample names as values
         # Todo: build into try/except (probably on KeyError)
-        r.zadd(sample_name, {sample_name: next(elements_gen) for sample_name in sample_names})
+        r.zadd(key, {sample_name: next(elements_gen) for sample_name in sample_names})
