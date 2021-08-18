@@ -3,8 +3,11 @@ import argparse
 import pathlib
 import shutil
 import subprocess
+from datetime import datetime
 
 from data_handling import update_distance_matrix
+
+start_time = datetime.now()
 
 CHEWIESNAKE_IMAGE_ID = os.getenv("CHEWIESNAKE_IMAGE_ID")
 CHEWIESNAKE_MOUNT_POINT = os.getenv("CHEWIESNAKE_MOUNT_POINT")
@@ -63,3 +66,7 @@ Grapetree, but it doesn't matter in our case."""
 
 
 update_distance_matrix(output_subfolder, 'salmonella', args.sample_names)
+
+end_time = datetime.now()
+processing_time = end_time - start_time
+print(f"Script ran in {processing_time}.")
