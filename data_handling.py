@@ -15,33 +15,39 @@ def line_reader(file_name):
 def line_splitter(line: str, splitter: str):
     return (value for value in line.rstrip().split(splitter))
 
-def get_allele_profiles(folder: pathlib.Path):
+def get_allele_profiles(folder: pathlib.Path, species_name: str):
     # Open relevant data files
     allele_profiles_file = pathlib.Path(folder, 'cgmlst', 'allele_profiles.tsv')
     assert allele_profiles_file.exists()
     hashids_file = pathlib.Path(folder, 'cgmlst', 'hashids.tsv')
     assert hashids_file.exists()
 
+    # We need to be able to exchange a sample name into a hash id.
+    hashids_reader = line_reader(hashids_file)
+    next(hashids_reader)  # Skip header line
+    hashids_table = []
+    for line in hashids_reader:
+        elements = line_splitter(line, '\t')
+        sample_name = next(elements)
+        hash_id = next(elements)
+        hashids_table.append({sample_name: hash_id})
+    print(hashids_table)
 
     # Get the list of new hash ids
     # (todo: merge with the list of already known hash ids.)
-
-
     allele_profile_reader = line_reader(allele_profiles_file)
     next(allele_profile_reader)  # Skip header line
     for line in allele_profile_reader:
         elements = line_splitter(line, '\t')
         sample_name = next(elements)
         print("Sample name: ", sample_name)
-        # We need to exchange the sample name with a hash id.
+        for allele_hash in elements:
+            if allele_hash == '-':
+                pass  # write empty string to Redis
+            else:
+                pass  # write allele_hash to Redis
 
-        for string in elements:
-            try:
-                allele_hash = int(string)
-            except ValueError:
-                allele_hash = None
-
-def update_distance_matrix(folder: pathlib.Path, species: str, sample_names: list):
+def update_distance_matrix(folder: pathlib.Path, species_name: str, sample_names: list):
     print("We already know that the distance matrix should contain these sample names:")
     print(sample_names)
     distance_matrix_file = pathlib.Path(folder, 'cgmlst', 'distance_matrix.tsv')
@@ -51,7 +57,7 @@ def update_distance_matrix(folder: pathlib.Path, species: str, sample_names: lis
         elements_gen = line_splitter(line, ' ')
         sample_name = next(elements_gen)
         print("Sample name:", sample_name)
-        key = species + ':' + sample_name
+        key = species_name + ':' + sample_name
         print("Key:", key)
         # Make a Redis 'sorted set' entry with distances as scores and sample names as values
         # Todo: build into try/except (probably on KeyError)

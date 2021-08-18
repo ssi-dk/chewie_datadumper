@@ -5,7 +5,7 @@ import shutil
 import subprocess
 from datetime import datetime
 
-from data_handling import update_distance_matrix
+from data_handling import get_allele_profiles, update_distance_matrix
 
 start_time = datetime.now()
 
@@ -64,7 +64,7 @@ process_out, process_error = process.communicate()
 """Note: if there's only one sample you'll always get an error from 
 Grapetree, but it doesn't matter in our case."""
 
-
+get_allele_profiles(output_subfolder, 'salmonella')
 update_distance_matrix(output_subfolder, 'salmonella', args.sample_names)
 
 end_time = datetime.now()
