@@ -41,11 +41,14 @@ def get_allele_profiles(folder: pathlib.Path, species_name: str):
         elements = line_splitter(line, '\t')
         sample_name = next(elements)
         print("Sample name: ", sample_name)
+        # Todo: use allele instead of sample_name in next line
+        key = f"allele_profile_{species_name}:{sample_name}"
         for allele_hash in elements:
+            print("Allele hash:", allele_hash)
             if allele_hash == '-':
-                pass  # write empty string to Redis
+                r.rpush(key, '')
             else:
-                pass  # write allele_hash to Redis
+                r.rpush(key, allele_hash)
 
 def update_distance_matrix(folder: pathlib.Path, species_name: str, sample_names: list):
     print("We already know that the distance matrix should contain these sample names:")
