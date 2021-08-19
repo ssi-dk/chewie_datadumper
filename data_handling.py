@@ -49,10 +49,7 @@ def get_allele_profiles(folder: pathlib.Path, species_name: str):
                 f"allele profile {hash_id} which is already known.")
         else:
             for allele_hash in elements:
-                if allele_hash == '-':
-                    r.rpush(key, '')
-                else:
-                    r.rpush(key, allele_hash)
+                r.rpush(key, allele_hash)
 
 def update_distance_matrix(folder: pathlib.Path, species_name: str, sample_names: list):
     print("We already know that the distance matrix should contain these sample names:")
