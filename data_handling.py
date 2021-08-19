@@ -31,6 +31,7 @@ def get_allele_profiles(folder: pathlib.Path, species_name: str):
         sample_name = next(elements)
         hash_id = next(elements)
         hashids_lookup_dict[sample_name] = hash_id
+        # Todo: we should also save hash_id on the sample in MongoDB.
 
     # Get the list of new hash ids
     # (todo: merge with the list of already known hash ids.)
