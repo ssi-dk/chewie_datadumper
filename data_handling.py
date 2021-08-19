@@ -17,21 +17,20 @@ def line_splitter(line: str, splitter: str):
 
 def get_allele_profiles(folder: pathlib.Path, species_name: str):
     # Open relevant data files
-    allele_profiles_file = pathlib.Path(folder, 'cgmlst', 'allele_profiles.tsv')
-    assert allele_profiles_file.exists()
     hashids_file = pathlib.Path(folder, 'cgmlst', 'hashids.tsv')
     assert hashids_file.exists()
+    allele_profiles_file = pathlib.Path(folder, 'cgmlst', 'allele_profiles.tsv')
+    assert allele_profiles_file.exists()
 
     # We need to be able to exchange a sample name into a hash id.
     hashids_reader = line_reader(hashids_file)
     next(hashids_reader)  # Skip header line
-    hashids_table = []
+    hashids_lookup_dict = dict()
     for line in hashids_reader:
         elements = line_splitter(line, '\t')
         sample_name = next(elements)
         hash_id = next(elements)
-        hashids_table.append({sample_name: hash_id})
-    print(hashids_table)
+        hashids_lookup_dict[sample_name] = hash_id
 
     # Get the list of new hash ids
     # (todo: merge with the list of already known hash ids.)
@@ -41,10 +40,10 @@ def get_allele_profiles(folder: pathlib.Path, species_name: str):
         elements = line_splitter(line, '\t')
         sample_name = next(elements)
         print("Sample name: ", sample_name)
-        # Todo: use allele instead of sample_name in next line
-        key = f"allele_profile_{species_name}:{sample_name}"
+        hash_id = hashids_lookup_dict[sample_name]
+        key = f"allele_profile_{species_name}:{hash_id}"
+        print("Key:", key)
         for allele_hash in elements:
-            print("Allele hash:", allele_hash)
             if allele_hash == '-':
                 r.rpush(key, '')
             else:
