@@ -44,11 +44,15 @@ def get_allele_profiles(folder: pathlib.Path, species_name: str):
         hash_id = hashids_lookup_dict[sample_name]
         key = f"allele_profile_{species_name}:{hash_id}"
         print("Key:", key)
-        for allele_hash in elements:
-            if allele_hash == '-':
-                r.rpush(key, '')
-            else:
-                r.rpush(key, allele_hash)
+        if r.exists(key):
+            print(f"Duplicate allele profile found: sample {sample_name} has "
+                f"allele profile {hash_id} which is already known.")
+        else:
+            for allele_hash in elements:
+                if allele_hash == '-':
+                    r.rpush(key, '')
+                else:
+                    r.rpush(key, allele_hash)
 
 def update_distance_matrix(folder: pathlib.Path, species_name: str, sample_names: list):
     print("We already know that the distance matrix should contain these sample names:")
@@ -63,5 +67,5 @@ def update_distance_matrix(folder: pathlib.Path, species_name: str, sample_names
         key = species_name + ':' + sample_name
         print("Key:", key)
         # Make a Redis 'sorted set' entry with distances as scores and sample names as values
-        # Todo: build into try/except (probably on KeyError)
+        # Todo: check for existing key.
         r.zadd(key, {sample_name: next(elements_gen) for sample_name in sample_names})
