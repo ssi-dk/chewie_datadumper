@@ -3,8 +3,11 @@ import argparse
 import pathlib
 import shutil
 import subprocess
+from datetime import datetime
 
-from data_handling import get_allele_profiles
+from data_handling import get_allele_profiles, update_distance_matrix
+
+start_time = datetime.now()
 
 CHEWIESNAKE_IMAGE_ID = os.getenv("CHEWIESNAKE_IMAGE_ID")
 CHEWIESNAKE_MOUNT_POINT = os.getenv("CHEWIESNAKE_MOUNT_POINT")
@@ -61,6 +64,9 @@ process_out, process_error = process.communicate()
 """Note: if there's only one sample you'll always get an error from 
 Grapetree, but it doesn't matter in our case."""
 
+get_allele_profiles(output_subfolder, 'salmonella')
+update_distance_matrix(output_subfolder, 'salmonella', args.sample_names)
 
-# Update allele_profiles collection in MongoDB
-get_allele_profiles(output_subfolder)
+end_time = datetime.now()
+processing_time = end_time - start_time
+print(f"Script ran in {processing_time}.")
