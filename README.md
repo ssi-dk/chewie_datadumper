@@ -1,5 +1,5 @@
 # Description
-Simple prototype script for integration of chewieSnake in Bifrost.
+chewieSnake tools for SOFI.
 
 # Example
 Set BIFROST_DB_KEY unless you want to use default ("mongodb://localhost/bifrost_test").
