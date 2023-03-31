@@ -6,7 +6,7 @@ authors = ["Finn Gruwier Larsen <figl@ssi.dk>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-redis = "^3.5.3"
+redis = "^4.4.4"
 
 [tool.poetry.dev-dependencies]
 
